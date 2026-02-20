@@ -31,6 +31,19 @@ html.light {
   --foreground: #171717;
 }
 
+/* Explicit light: project cards */
+html.light .project-card-orb {
+  background: #F5F5F3 !important;
+  border-color: rgba(15, 15, 15, 0.12) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+html.light .project-card-orb,
+html.light .project-card-orb h3,
+html.light .project-card-orb a {
+  color: #0F0F0F !important;
+}
+
+/* Explicit dark: project cards */
 html.dark .project-card-orb {
   background: #1a1a1a !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
@@ -42,15 +55,16 @@ html.dark .project-card-orb a {
   color: #ededed !important;
 }
 
+/* System preference only when no explicit toggle (no .light / .dark) */
 @media (prefers-color-scheme: dark) {
-  .project-card-orb {
+  html:not(.light):not(.dark) .project-card-orb {
     background: #1a1a1a !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) !important;
   }
-  .project-card-orb,
-  .project-card-orb h3,
-  .project-card-orb a {
+  html:not(.light):not(.dark) .project-card-orb,
+  html:not(.light):not(.dark) .project-card-orb h3,
+  html:not(.light):not(.dark) .project-card-orb a {
     color: #ededed !important;
   }
 }
