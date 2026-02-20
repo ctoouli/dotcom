@@ -48,13 +48,14 @@ function ProjectOrbInner({
           center
           transform
           distanceFactor={6}
-          pointerEvents={show && opacity > 0.5 ? "auto" : "none"}
+          pointerEvents="none"
           style={{ width: "max-content" }}
         >
           <div
             className="project-card-orb"
             style={{
               opacity: show ? opacity : 0,
+              pointerEvents: "none",
               minWidth: 200,
               padding: "12px 14px",
               borderRadius: 12,
@@ -76,7 +77,7 @@ function ProjectOrbInner({
               <a
                 href={project.href}
                 className="mt-1 inline-block text-[#0F0F0F] hover:underline"
-                style={{ fontSize: 13, fontWeight: 500, marginTop: 6 }}
+                style={{ fontSize: 13, fontWeight: 500, marginTop: 6, pointerEvents: "auto" }}
               >
                 View project →
               </a>
