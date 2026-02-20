@@ -1,10 +1,27 @@
 "use client";
 
 import React, { memo } from "react";
+import * as THREE from "three";
 import { Billboard, Html } from "@react-three/drei";
 import type { Project } from "@/content/projects";
 import { useScrollPortal } from "./ScrollPortalContext";
 import { useDarkMode } from "./SceneThemeContext";
+
+const _pos = new THREE.Vector3();
+/** Round to integer pixels so the card isn't composited at subpixel position (avoids grainy blur). */
+function roundedCalculatePosition(
+  el: THREE.Object3D,
+  camera: THREE.Camera,
+  size: { width: number; height: number }
+): [number, number] {
+  _pos.setFromMatrixPosition(el.matrixWorld);
+  _pos.project(camera);
+  const widthHalf = size.width / 2;
+  const heightHalf = size.height / 2;
+  const x = _pos.x * widthHalf + widthHalf;
+  const y = -(_pos.y * heightHalf) + heightHalf;
+  return [Math.round(x), Math.round(y)];
+}
 
 export interface ProjectOrbProps {
   index: number;
@@ -34,7 +51,10 @@ function ProjectOrbInner({
   const scale = 1 + SCALE_ACTIVE * strength;
   const show = showProjectCard && strength > STRENGTH_THRESHOLD;
   const forwardOffset = strength * 0.5;
-  const opacity = strength <= STRENGTH_THRESHOLD ? 0 : Math.min(1, (strength - STRENGTH_THRESHOLD) / (1 - STRENGTH_THRESHOLD));
+  const opacity =
+    strength <= STRENGTH_THRESHOLD
+      ? 0
+      : Math.min(1, (strength - STRENGTH_THRESHOLD) / (1 - STRENGTH_THRESHOLD));
 
   return (
     <group position={[position[0], position[1], position[2] + forwardOffset]}>
@@ -53,7 +73,8 @@ function ProjectOrbInner({
         <Html
           portal={portalRef ? (portalRef as React.RefObject<HTMLElement>) : undefined}
           center
-          transform
+          transform={false}
+          calculatePosition={roundedCalculatePosition}
           distanceFactor={6}
           pointerEvents="none"
           style={{ width: "max-content" }}
@@ -70,8 +91,9 @@ function ProjectOrbInner({
               background: "#F5F5F3",
               boxShadow: "0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04)",
               WebkitFontSmoothing: "antialiased",
-              transform: "translateZ(0)",
-              transition: "opacity 0.15s ease-out",
+              transform: `translateZ(0) scale(${show ? opacity : 0})`,
+              transformOrigin: "center center",
+              transition: "opacity 0.15s ease-out, transform 0.15s ease-out",
             }}
           >
             <h3

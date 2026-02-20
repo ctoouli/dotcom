@@ -86,11 +86,12 @@ body {
   white-space: normal;
 }
 
-/* Project cards in 3D scene: crisp text and avoid blur on first show */
+/* Project cards in 3D scene: crisp text, no opacity animation to avoid grainy blur */
 .project-card-orb {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   backface-visibility: hidden;
   contain: paint;
+  isolation: isolate;
 }
