@@ -7,7 +7,7 @@ import { scrollOffsetToDisplayT } from "./scrollPause";
 import { useScrollOffset } from "./useScrollOffset";
 import { N, CONTACT_THRESHOLD, projectOffset } from "./sceneConstants";
 
-const RADIUS = 6;
+const RADIUS = 2.5;
 const SCROLL_START_THRESHOLD = 0.005;
 
 export default function Orbs() {

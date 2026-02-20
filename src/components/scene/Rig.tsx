@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useScroll } from "@react-three/drei";
-import * as THREE from "three";
 import { N, CONTACT_THRESHOLD, projectOffset } from "./sceneConstants";
 import { scrollOffsetToDisplayT } from "./scrollPause";
 
@@ -28,14 +27,14 @@ export default function Rig({ groupRef }: RigProps) {
 
     if (inOrbit) {
       currentAngleRef.current += delta * ORBIT_SPEED;
-      groupRef.current.rotation.y = currentAngleRef.current;
     } else {
       const proj = projectOffset(offset);
       const displayT = scrollOffsetToDisplayT(proj, N);
       const targetAngle = -(displayT / N) * Math.PI * 2;
       currentAngleRef.current += (targetAngle - currentAngleRef.current) * LERP_FACTOR;
-      groupRef.current.rotation.y = currentAngleRef.current;
     }
+
+    groupRef.current.rotation.y = currentAngleRef.current;
 
     // Move scene off-screen in lockstep with scroll (no lerp) so it feels like normal scrolling
     if (inContact) {

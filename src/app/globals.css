@@ -35,3 +35,12 @@ body {
   clip: auto;
   white-space: normal;
 }
+
+/* Project cards in 3D scene: crisp text and avoid blur on first show */
+.project-card-orb {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  backface-visibility: hidden;
+  contain: paint;
+}

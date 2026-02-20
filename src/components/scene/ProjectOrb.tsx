@@ -15,6 +15,7 @@ export interface ProjectOrbProps {
 
 const STRENGTH_THRESHOLD = 0.2;
 const SCALE_ACTIVE = 0.2;
+const ORB_RADIUS = 0.05;
 
 function ProjectOrbInner({
   index,
@@ -32,41 +33,57 @@ function ProjectOrbInner({
 
   return (
     <group position={[position[0], position[1], position[2] + forwardOffset]}>
-      <mesh scale={scale}>
-        <sphereGeometry args={[0.5, 32, 32]} />
+      <mesh scale={scale} castShadow>
+        <icosahedronGeometry args={[ORB_RADIUS, 0]} />
         <meshStandardMaterial
-          color="#64748b"
-          metalness={0.2}
-          roughness={0.8}
-          emissive="#475569"
-          emissiveIntensity={0.2 + strength * 0.4}
+          color={0x0a0a0a}
+          metalness={0.4}
+          roughness={0.5}
         />
       </mesh>
-      {show ? (
-        <Billboard>
-          <Html
-            portal={portalRef ? (portalRef as React.RefObject<HTMLElement>) : undefined}
-            center
-            transform
-            pointerEvents={opacity > 0.5 ? "auto" : "none"}
+      {/* Always mount the card so it's painted from load — reveal with opacity to avoid first-view blur */}
+      <Billboard>
+        <Html
+          portal={portalRef ? (portalRef as React.RefObject<HTMLElement>) : undefined}
+          center
+          transform
+          distanceFactor={6}
+          pointerEvents={show && opacity > 0.5 ? "auto" : "none"}
+          style={{ width: "max-content" }}
+        >
+          <div
+            className="project-card-orb"
+            style={{
+              opacity: show ? opacity : 0,
+              minWidth: 200,
+              padding: "12px 14px",
+              borderRadius: 12,
+              border: "1px solid rgba(15, 15, 15, 0.12)",
+              background: "#F5F5F3",
+              boxShadow: "0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04)",
+              WebkitFontSmoothing: "antialiased",
+              transform: "translateZ(0)",
+              transition: "opacity 0.15s ease-out",
+            }}
           >
-            <div
-              className="min-w-[180px] rounded-lg bg-zinc-900/90 px-3 py-2 text-left text-zinc-100 shadow-lg dark:bg-white/10 dark:text-zinc-50"
-              style={{ opacity }}
+            <h3
+              className="font-semibold text-[#0F0F0F]"
+              style={{ fontSize: 15, letterSpacing: "-0.01em", margin: 0, lineHeight: 1.3 }}
             >
-            <h3 className="font-semibold text-sm">{project.title}</h3>
+              {project.title}
+            </h3>
             {project.href ? (
               <a
                 href={project.href}
-                className="mt-1 inline-block text-xs font-medium text-sky-400 hover:underline"
+                className="mt-1 inline-block text-[#0F0F0F] hover:underline"
+                style={{ fontSize: 13, fontWeight: 500, marginTop: 6 }}
               >
-                View
+                View project →
               </a>
             ) : null}
           </div>
-          </Html>
-        </Billboard>
-      ) : null}
+        </Html>
+      </Billboard>
     </group>
   );
 }

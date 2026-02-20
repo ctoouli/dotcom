@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-The main page is a **scroll-driven 3D portfolio**: orbs on a ring, project cards on the active orb, and a contact section after the last project. How that works (scroll math, display T, Rig, portal, etc.) is documented in **[src/components/scene/README.md](src/components/scene/README.md)** — read that when working on or debugging the scene.
+The main page is a **scroll-driven 3D portfolio**: a glass knot and ring in the center, project and decorative orbs on orbital rings, project cards on the active orb, and a contact section after the last project (cream background, black/white visuals). How it works (scroll math, display T, Rig, portal, proportions, etc.) is documented in **[src/components/scene/README.md](src/components/scene/README.md)** — read that when working on or debugging the scene.
 
 ## Getting Started
 

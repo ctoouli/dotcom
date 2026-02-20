@@ -36,14 +36,14 @@ export default function ContactOverlay() {
           transition: "opacity 0.2s ease-out",
         }}
       >
-        <div className="flex flex-col items-center gap-6 text-center text-zinc-100">
+        <div className="flex flex-col items-center gap-6 text-center text-[#0F0F0F]">
           <h2 className="text-2xl font-semibold tracking-tight">Get in touch</h2>
-          <p className="max-w-sm text-zinc-400">
+          <p className="max-w-sm text-[#0F0F0F]/60">
             Have a project in mind or want to say hi? I’d love to hear from you.
           </p>
           <a
             href="mailto:hello@example.com"
-            className="rounded-full bg-zinc-100 px-6 py-3 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-200"
+            className="rounded-full border border-[#0F0F0F] bg-[#0F0F0F] px-6 py-3 text-sm font-medium text-[#F0F0EB] transition-opacity hover:opacity-90"
           >
             Contact me
           </a>
