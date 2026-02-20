@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useMemo } from "react";
-import { Canvas } from "@react-three/fiber";
-import { ScrollControls } from "@react-three/drei";
+import { useRef, useMemo, useEffect } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import { ScrollControls, Effects } from "@react-three/drei";
+import { EffectComposer, GammaCorrectionShader } from "three-stdlib";
 import * as THREE from "three";
 import TorusKnot from "./TorusKnot";
 import Orbs from "./Orbs";
@@ -11,6 +12,36 @@ import Rig from "./Rig";
 import ContactOverlay from "./ContactOverlay";
 import { ScrollPortalProvider } from "./ScrollPortalContext";
 import { PAGES } from "./sceneConstants";
+import { DitherPass } from "./DitherPass";
+
+function EffectsWithDither() {
+  const composerRef = useRef<EffectComposer | null>(null);
+  const ditherPassRef = useRef<DitherPass | null>(null);
+  const { size, viewport } = useThree();
+
+  useEffect(() => {
+    const composer = composerRef.current;
+    if (!composer) return;
+    const pass = new DitherPass();
+    ditherPassRef.current = pass;
+    composer.insertPass(pass, 1);
+    const w = size.width * viewport.dpr;
+    const h = size.height * viewport.dpr;
+    pass.setSize(w, h);
+    return () => {
+      const p = ditherPassRef.current;
+      if (composer?.passes && p) {
+        composer.removePass(p);
+      }
+    };
+  }, []);
+
+  return (
+    <Effects ref={composerRef} disableGamma>
+      <shaderPass args={[GammaCorrectionShader]} />
+    </Effects>
+  );
+}
 
 const CREAM = 0xf0f0eb;
 
@@ -43,6 +74,7 @@ export default function Scene() {
           <ContactOverlay />
         </ScrollControls>
       </ScrollPortalProvider>
+      <EffectsWithDither />
     </Canvas>
   );
 }
