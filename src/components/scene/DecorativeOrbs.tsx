@@ -2,8 +2,11 @@
 
 import { memo } from "react";
 import { orbitPosition } from "./orbPose";
+import { useDarkMode } from "./SceneThemeContext";
 
 const ORB_RADIUS = 0.05;
+const ORB_LIGHT = 0x0a0a0a;
+const ORB_DARK = 0xffffff;
 
 /**
  * Multiple orbital rings at different inclinations (different planes). Radii 2–4
@@ -19,16 +22,32 @@ const ORBITS: { radius: number; inclination: number; count: number }[] = [
   { radius: 4, inclination: 1.8, count: 5 },
 ];
 
-function DecorativeOrb({ position }: { position: [number, number, number] }) {
+function DecorativeOrb({
+  position,
+  color,
+  isDark,
+}: {
+  position: [number, number, number];
+  color: number;
+  isDark: boolean;
+}) {
   return (
     <mesh position={position} castShadow>
       <icosahedronGeometry args={[ORB_RADIUS, 0]} />
-      <meshStandardMaterial color={0x0a0a0a} metalness={0.4} roughness={0.5} />
+      <meshStandardMaterial
+        color={color}
+        emissive={isDark ? 0xffffff : 0x000000}
+        emissiveIntensity={isDark ? 0.7 : 0}
+        metalness={0.4}
+        roughness={0.5}
+      />
     </mesh>
   );
 }
 
 function DecorativeOrbsInner() {
+  const isDark = useDarkMode();
+  const orbColor = isDark ? ORB_DARK : ORB_LIGHT;
   let key = 0;
   return (
     <>
@@ -39,6 +58,8 @@ function DecorativeOrbsInner() {
             <DecorativeOrb
               key={key++}
               position={orbitPosition(a, radius, inclination)}
+              color={orbColor}
+              isDark={isDark}
             />
           );
         })

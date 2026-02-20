@@ -3,6 +3,7 @@
 import { memo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { useDarkMode } from "./SceneThemeContext";
 
 const ROTATION_SPEED = 0.15;
 const MOBILE_WIDTH = 768;
@@ -11,9 +12,15 @@ const KNOT_TUBE = 0.3;
 const RING_RADIUS = 2.5;
 const RING_TUBE = 0.02;
 
+const RING_LIGHT = 0x0a0a0a;
+const RING_DARK = 0xffffff;
+const GLASS_LIGHT = 0xffffff;
+const GLASS_DARK = 0xffffff;
+
 function TorusKnotInner() {
   const groupRef = useRef<THREE.Group>(null);
   const { size } = useThree();
+  const isDark = useDarkMode();
   const isMobile = size.width < MOBILE_WIDTH;
   const tubularSegments = isMobile ? 64 : 150;
   const radialSegments = isMobile ? 12 : 20;
@@ -29,7 +36,9 @@ function TorusKnotInner() {
       <mesh castShadow>
         <torusKnotGeometry args={[KNOT_RADIUS, KNOT_TUBE, tubularSegments, radialSegments, 2, 3]} />
         <meshPhysicalMaterial
-          color={0xffffff}
+          color={isDark ? GLASS_DARK : GLASS_LIGHT}
+          emissive={isDark ? 0xffffff : 0x000000}
+          emissiveIntensity={isDark ? 0.7 : 0}
           metalness={0.1}
           roughness={0.05}
           transmission={0.95}
@@ -41,7 +50,13 @@ function TorusKnotInner() {
       </mesh>
       <mesh rotation={[Math.PI / 1.8, 0, 0]} castShadow>
         <torusGeometry args={[RING_RADIUS, RING_TUBE, 16, 100]} />
-        <meshStandardMaterial color={0x0a0a0a} metalness={0.6} roughness={0.3} />
+        <meshStandardMaterial
+          color={isDark ? RING_DARK : RING_LIGHT}
+          emissive={isDark ? 0xffffff : 0x000000}
+          emissiveIntensity={isDark ? 0.7 : 0}
+          metalness={0.6}
+          roughness={0.3}
+        />
       </mesh>
     </group>
   );

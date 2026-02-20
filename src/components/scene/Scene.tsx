@@ -13,6 +13,7 @@ import ContactOverlay from "./ContactOverlay";
 import { ScrollPortalProvider } from "./ScrollPortalContext";
 import { PAGES } from "./sceneConstants";
 import { DitherPass } from "./DitherPass";
+import { useDarkMode } from "./SceneThemeContext";
 
 function EffectsWithDither() {
   const composerRef = useRef<EffectComposer | null>(null);
@@ -44,10 +45,13 @@ function EffectsWithDither() {
 }
 
 const CREAM = 0xf0f0eb;
+const NIGHT_BG = 0x0a0a0a;
 
 export default function Scene() {
   const carouselRef = useRef<THREE.Group>(null);
-  const fog = useMemo(() => new THREE.FogExp2(CREAM, 0.02), []);
+  const isDark = useDarkMode();
+  const sceneBg = isDark ? NIGHT_BG : CREAM;
+  const fog = useMemo(() => new THREE.FogExp2(sceneBg, 0.02), [sceneBg]);
 
   return (
     <Canvas
@@ -59,7 +63,7 @@ export default function Scene() {
       camera={{ position: [0, 0, 8], fov: 45 }}
       style={{ position: "fixed", inset: 0 }}
     >
-      <color attach="background" args={[CREAM]} />
+      <color attach="background" args={[sceneBg]} />
       <primitive object={fog} attach="fog" />
       <ambientLight color={0xffffff} intensity={0.6} />
       <spotLight position={[5, 5, 5]} intensity={20} castShadow />

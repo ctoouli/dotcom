@@ -4,6 +4,7 @@ import React, { memo } from "react";
 import { Billboard, Html } from "@react-three/drei";
 import type { Project } from "@/content/projects";
 import { useScrollPortal } from "./ScrollPortalContext";
+import { useDarkMode } from "./SceneThemeContext";
 
 export interface ProjectOrbProps {
   index: number;
@@ -16,6 +17,8 @@ export interface ProjectOrbProps {
 const STRENGTH_THRESHOLD = 0.2;
 const SCALE_ACTIVE = 0.2;
 const ORB_RADIUS = 0.05;
+const ORB_LIGHT = 0x0a0a0a;
+const ORB_DARK = 0xffffff;
 
 function ProjectOrbInner({
   index,
@@ -25,6 +28,8 @@ function ProjectOrbInner({
   showProjectCard,
 }: ProjectOrbProps) {
   const portalRef = useScrollPortal();
+  const isDark = useDarkMode();
+  const orbColor = isDark ? ORB_DARK : ORB_LIGHT;
   const strength = Math.max(0, 1 - Math.abs(activeT - index));
   const scale = 1 + SCALE_ACTIVE * strength;
   const show = showProjectCard && strength > STRENGTH_THRESHOLD;
@@ -36,7 +41,9 @@ function ProjectOrbInner({
       <mesh scale={scale} castShadow>
         <icosahedronGeometry args={[ORB_RADIUS, 0]} />
         <meshStandardMaterial
-          color={0x0a0a0a}
+          color={orbColor}
+          emissive={isDark ? 0xffffff : 0x000000}
+          emissiveIntensity={isDark ? 0.7 : 0}
           metalness={0.4}
           roughness={0.5}
         />

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #F0F0EB;
   --foreground: #171717;
 }
 
@@ -13,9 +13,45 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --background: #0a0a0a;
     --foreground: #ededed;
+  }
+}
+
+/* Toggle override: explicit dark */
+html.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+/* Toggle override: explicit light */
+html.light {
+  --background: #F0F0EB;
+  --foreground: #171717;
+}
+
+html.dark .project-card-orb {
+  background: #1a1a1a !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+html.dark .project-card-orb,
+html.dark .project-card-orb h3,
+html.dark .project-card-orb a {
+  color: #ededed !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-orb {
+    background: #1a1a1a !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  }
+  .project-card-orb,
+  .project-card-orb h3,
+  .project-card-orb a {
+    color: #ededed !important;
   }
 }
 
