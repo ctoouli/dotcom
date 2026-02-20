@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useScroll } from "@react-three/drei";
+import * as THREE from "three";
 import { N, CONTACT_THRESHOLD, projectOffset } from "./sceneConstants";
 import { scrollOffsetToDisplayT } from "./scrollPause";
 
