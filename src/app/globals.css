@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -88,10 +89,14 @@ body {
 
 /* Project cards in 3D scene: crisp text, no opacity animation to avoid grainy blur */
 .project-card-orb {
+  font-family: var(--font-geist-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   backface-visibility: hidden;
   contain: paint;
   isolation: isolate;
+}
+.project-card-orb h3 {
+  font-family: var(--font-instrument-serif);
 }

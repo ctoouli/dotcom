@@ -36,8 +36,8 @@ export default function ContactOverlay() {
           transition: "opacity 0.2s ease-out",
         }}
       >
-        <div className="flex flex-col items-center gap-6 text-center text-foreground">
-          <h2 className="text-2xl font-semibold tracking-tight">Get in touch</h2>
+        <div className="font-sans flex flex-col items-center gap-6 text-center text-foreground">
+          <h2 className="font-serif text-2xl font-semibold tracking-tight">Get in touch</h2>
           <p className="max-w-sm text-foreground/60">
             Have a project in mind or want to say hi? I’d love to hear from you.
           </p>
