@@ -34,7 +34,6 @@ function ProjectOrbInner({
   const scale = 1 + SCALE_ACTIVE * strength;
   const show = showProjectCard && strength > STRENGTH_THRESHOLD;
   const forwardOffset = strength * 0.5;
-  const opacity = strength <= STRENGTH_THRESHOLD ? 0 : Math.min(1, (strength - STRENGTH_THRESHOLD) / (1 - STRENGTH_THRESHOLD));
 
   return (
     <group position={[position[0], position[1], position[2] + forwardOffset]}>
@@ -61,7 +60,8 @@ function ProjectOrbInner({
           <div
             className="project-card-orb"
             style={{
-              opacity: show ? opacity : 0,
+              opacity: show ? 1 : 0,
+              visibility: show ? "visible" : "hidden",
               pointerEvents: "none",
               minWidth: 200,
               padding: "12px 14px",
@@ -70,8 +70,6 @@ function ProjectOrbInner({
               background: "#F5F5F3",
               boxShadow: "0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04)",
               WebkitFontSmoothing: "antialiased",
-              transform: "translateZ(0)",
-              transition: "opacity 0.15s ease-out",
             }}
           >
             <h3
